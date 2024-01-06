@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 12:41
+ * @LastTime   : 2024-01-06 13:59
  * @desc       : 
 -->
 
@@ -224,7 +224,7 @@
             class="tip-text"
             style="margin-bottom: 0"
           >
-            2. 普通字段包括: 文本、单选、多选、单向关联、双向关联、人员、数字、货币、进度、电话号码
+            2. 普通字段包括: 文本、单选、多选、单向关联、双向关联、人员、数字、货币、进度、电话号码、超链接
           </div>
           <div
             class="tip-text"
