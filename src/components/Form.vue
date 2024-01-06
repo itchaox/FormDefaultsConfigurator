@@ -3,13 +3,13 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 11:50
+ * @LastTime   : 2024-01-06 12:29
  * @desc       : 
 -->
 
 <script setup lang="ts">
   import { bitable } from '@lark-base-open/js-sdk';
-  import { Close } from '@element-plus/icons-vue';
+  import { Close, CaretRight, InfoFilled } from '@element-plus/icons-vue';
   import FieldIcon from './fieldIcon.jsx';
   import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
@@ -167,10 +167,81 @@
   function goUrl() {
     window.open(formDefaultUrl.value, '_blank');
   }
+
+  function more() {
+    window.open(
+      'https://www.feishu.cn/hc/zh-CN/articles/763023425825-%E8%AE%BE%E7%BD%AE%E8%A1%A8%E5%8D%95%E9%A2%84%E5%A1%AB%E9%BB%98%E8%AE%A4%E5%80%BC',
+      '_blank',
+    );
+  }
+
+  const collapse = ref('0');
 </script>
 
 <template>
   <div class="home">
+    <div class="tip">
+      <div class="tip-text title">
+        <span>操作步骤：</span>
+        <el-tooltip
+          placement="right"
+          effect="customized"
+        >
+          <template #content>查看表单预填默认值<br />更多操作详情</template>
+          <el-icon
+            class="tip-icon cursor"
+            @click="more"
+            ><QuestionFilled
+          /></el-icon>
+        </el-tooltip>
+      </div>
+      <div class="tip-text">1. 输入表单地址</div>
+      <div class="tip-text">2. 添加默认值</div>
+      <div class="tip-text">3. 点击【生成默认值地址】按钮即可</div>
+    </div>
+
+    <el-collapse
+      v-model="collapse"
+      class="collapse"
+    >
+      <!-- FIXME 筛选 -->
+      <el-collapse-item name="1">
+        <template #title>
+          <el-icon class="mr5"><InfoFilled /></el-icon>
+          <span class="collapse-title">更多操作信息</span>
+        </template>
+        <div
+          class="tip"
+          style="margin-bottom: 0"
+        >
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            1. 支持默认值设置的字段类型：普通字段、复选框、日期
+          </div>
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            2. 普通字段包括: 文本、单选、多选、单向关联、双向关联、人员、数字、货币、进度、电话号码
+          </div>
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            3. 请确保默认值的问题名称与实际表单一致
+          </div>
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            4. 预填多条记录时，请使用逗号分隔（中文/英文皆可）
+          </div>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+
     <div class="addView-line">
       <div class="addView-line-label">表单地址:</div>
       <el-input
@@ -290,14 +361,18 @@
       <el-button
         type="primary"
         @click="generateFormDefaultUrl"
-        >生成表单默认值地址</el-button
       >
-      <div class="default-url-text">
+        <el-icon size="20"><CaretRight /></el-icon>
+        <span>生成默认值地址</span>
+      </el-button>
+      <div
+        class="default-url-text"
+        v-if="formDefaultUrl"
+      >
         <div class="url-label">
-          <span>表单默认值地址：</span>
+          <span> 表单默认值地址：</span>
           <BrowserChrome
             @click="goUrl"
-            v-if="formDefaultUrl"
             class="icon"
             theme="outline"
             strokeLinejoin="miter"
@@ -396,5 +471,46 @@
       cursor: pointer;
       color: #3370ff;
     }
+  }
+
+  .tip {
+    color: #8f959e;
+    font-size: 12px;
+    margin-bottom: 24px;
+    .tip-text {
+      margin-bottom: 4px;
+    }
+
+    .title {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+  }
+  .tip-icon {
+    position: relative;
+    top: 2px;
+  }
+
+  .cursor {
+    cursor: pointer;
+  }
+
+  .collapse {
+    margin-bottom: 14px;
+  }
+  .mr5 {
+    margin-right: 5px;
+  }
+</style>
+
+<style>
+  .el-popper.is-customized {
+    padding: 6px 12px;
+    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
+  }
+
+  .el-popper.is-customized .el-popper__arrow::before {
+    background: linear-gradient(45deg, #b2e68d, #bce689);
+    right: 0;
   }
 </style>
