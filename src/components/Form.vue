@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 19:02
+ * @LastTime   : 2024-01-06 19:24
  * @desc       : 
 -->
 
@@ -14,7 +14,7 @@
   import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
 
-  import { BrowserChrome, PreviewOpen, PreviewClose } from '@icon-park/vue-next';
+  import { BrowserSafari, PreviewOpen, PreviewClose } from '@icon-park/vue-next';
 
   const rawUrl = ref('');
 
@@ -421,7 +421,8 @@
       >
         <div class="url-label">
           <span> 表单默认值地址：</span>
-          <BrowserChrome
+          <BrowserSafari
+            size="18"
             @click="goUrl"
             class="icon"
             theme="outline"
@@ -430,12 +431,12 @@
             title="在浏览器中打开"
           />
         </div>
-        <div
+        <span
           class="url"
           @click="copy"
         >
           {{ formDefaultUrl }}
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -509,7 +510,8 @@
   }
 
   .url {
-    margin-top: 5px;
+    display: inline-block;
+    margin-top: 10px;
     max-width: 100%;
     color: #245bdb;
     word-wrap: break-word;
