@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 19:24
+ * @LastTime   : 2024-01-06 19:27
  * @desc       : 
 -->
 
@@ -169,9 +169,11 @@
       })
       .join('&');
 
-    formDefaultUrl.value = rawUrl.value + `?${queryParams}`;
-
-    console.log(formDefaultUrl.value);
+    if (queryParams) {
+      formDefaultUrl.value = rawUrl.value + `?${queryParams}`;
+    } else {
+      formDefaultUrl.value = rawUrl.value;
+    }
   }
 
   const { toClipboard } = useClipboard();
