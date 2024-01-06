@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 12:29
+ * @LastTime   : 2024-01-06 12:41
  * @desc       : 
 -->
 
@@ -16,7 +16,7 @@
 
   import { BrowserChrome } from '@icon-park/vue-next';
 
-  const rawUrl = ref('https://bcmcjimpjd.feishu.cn/share/base/form/shrcnBAfWeR3Dky4fnWlOL4B9xG');
+  const rawUrl = ref('');
 
   import useClipboard from 'vue-clipboard3';
 
