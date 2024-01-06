@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 13:59
+ * @LastTime   : 2024-01-06 19:02
  * @desc       : 
 -->
 
@@ -14,7 +14,7 @@
   import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
 
-  import { BrowserChrome } from '@icon-park/vue-next';
+  import { BrowserChrome, PreviewOpen, PreviewClose } from '@icon-park/vue-next';
 
   const rawUrl = ref('');
 
@@ -29,6 +29,7 @@
       id: uuidv4(), // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
       name: '',
       value: '',
+      isShow: true,
     });
   };
 
@@ -125,10 +126,26 @@
 
   const formDefaultUrl = ref();
 
+  watchEffect(() => {
+    if (!rawUrl.value) {
+      formDefaultUrl.value = '';
+    }
+  });
+
   /**
    * @desc  : 生成转换后的地址
    */
   function generateFormDefaultUrl() {
+    if (!rawUrl.value) {
+      ElMessage({
+        message: '请先填写表单地址!',
+        type: 'error',
+        duration: 1500,
+        showClose: true,
+      });
+      return;
+    }
+
     const queryParams = filterList.value
       .map((item) => {
         // 日期处理
@@ -137,7 +154,18 @@
         // 将中文逗号替换为英文逗号
         const processedValue = item.type === 5 ? _formateTime : item.value.replace(/，/g, ',');
 
-        return `prefill_${encodeURIComponent(item.name)}=${encodeURIComponent(processedValue)}`;
+        let _data;
+
+        // 是否隐藏问题
+        if (item.isShow) {
+          _data = `prefill_${encodeURIComponent(item.name)}=${encodeURIComponent(processedValue)}`;
+        } else {
+          _data = `prefill_${encodeURIComponent(item.name)}=${encodeURIComponent(
+            processedValue,
+          )}&hide_${encodeURIComponent(item.name)}=${encodeURIComponent(1)}`;
+        }
+
+        return _data;
       })
       .join('&');
 
@@ -260,6 +288,27 @@
           v-for="(item, index) in filterList"
           :key="item.id"
         >
+          <el-button
+            size="small"
+            type="danger"
+            link
+            @click="() => (item.isShow = !item?.isShow)"
+          >
+            <preview-open
+              v-if="item.isShow"
+              theme="outline"
+              size="20"
+              fill="#333"
+              strokeLinecap="square"
+            />
+            <preview-close
+              v-else
+              theme="outline"
+              size="20"
+              fill="#333"
+              strokeLinecap="square"
+            />
+          </el-button>
           <div
             class="collapse-line-value"
             style="width: 50%"
@@ -276,6 +325,7 @@
           <!-- 字段名 -->
           <div class="collapse-line-filed">
             <el-select
+              style="width: 105%"
               size="small"
               v-model="item.type"
               :title="item.name"
@@ -420,7 +470,7 @@
   }
 
   .collapse-line-filed {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .collapse-line-other {
