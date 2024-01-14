@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-14 15:38
+ * @LastTime   : 2024-01-14 15:50
  * @desc       : 
 -->
 
@@ -474,6 +474,7 @@
         </div>
       </div>
       <el-button
+        class="add"
         text
         @click="addFilter"
       >
@@ -683,6 +684,11 @@
 
   .add-icon {
     margin-right: 5px;
+  }
+
+  .add {
+    color: #1456f0 !important;
+    font-size: 16px;
   }
 </style>
 
