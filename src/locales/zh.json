@@ -1,3 +1,27 @@
 {
-  "title":"标题"
+  "1": "1. 支持默认值设置的字段类型：普通字段、复选框、日期",
+  "2": "2. 普通字段包括: 文本、单选、多选、单向关联、双向关联、人员、数字、货币、进度、电话号码、超链接",
+  "3": "3. 请确保默认值的问题名称与实际表单一致",
+  "4": "4. 预填多条记录时，请使用逗号分隔（中文/英文皆可）",
+  "title": "标题",
+  "General Fields": "普通字段",
+  "date": "日期",
+  "checkbox": "复选框",
+  "Please fill in the form address first": "请先填写表单地址!",
+  "f1": "表单地址不合法，请检查!",
+  "Successful generation": "生成成功",
+  "Copy Success": "复制成功",
+  "More operational information": "更多操作信息",
+  "Check out the official documentation for an introduction": "查看官方文档介绍",
+  "Form address": "表单地址:",
+  "Please enter the form address": "请输入表单地址",
+  "Please enter the name of the question": "请输入问题名字",
+  "Please enter the default value": "请输入默认值",
+  "Please select a date": "请选择日期",
+  "tick": "勾选",
+  "unchecked": "不勾选",
+  "Adding default values": "添加默认值",
+  "Generate default value address": "生成默认值地址",
+  "Click to preview": "单击预览",
+  "Click to copy the address": "单击复制地址"
 }

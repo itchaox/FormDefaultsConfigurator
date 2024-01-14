@@ -1,3 +1,22 @@
 {
-  "title":"title"
+  "1": "1. Field types that support default value settings: common fields, checkboxes, dates",
+  "2": "2. General fields include: text, single-select, multi-select, one-way association, two-way association, person, number, currency, progress, telephone number, hyperlinks",
+  "3": "3. Please ensure that the question name of the default value corresponds to the actual form",
+  "4": "4. When pre-filling multiple records, please use commas to separate them (both Chinese/English are acceptable)",
+  "title": "Title",
+  "General Fields": "General Field",
+  "date": "Date",
+  "checkbox": "Checkbox",
+  "Please fill in the form address first": "Please fill in the form address first!",
+  "f1": "The form address is not legal, please check!",
+  "Successful generation": "Successful generation",
+  "Copy Success": "Copy Success",
+  "More operational information": "More operational information",
+  "Check out the official documentation for an introduction": "Check out the official documentation for an introduction",
+  "Form address": "Form address:",
+  "tick": "Checked",
+  "Adding default values": "Adding default values",
+  "Generate default value address": "Generate default value address",
+  "Click to preview": "Click to preview",
+  "Click to copy the address": "Click to copy the address"
 }

@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-14 14:54
+ * @LastTime   : 2024-01-14 15:38
  * @desc       : 
 -->
 
@@ -13,6 +13,10 @@
   import FieldIcon from './fieldIcon.jsx';
   import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
+
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
 
   import { BrowserSafari, PreviewOpen, PreviewClose, DocDetail, CopyLink } from '@icon-park/vue-next';
 
@@ -38,15 +42,15 @@
   const fieldList = ref([
     {
       type: 1,
-      name: '普通字段',
+      name: t('General Fields'),
     },
     {
       type: 5,
-      name: '日期',
+      name: t('date'),
     },
     {
       type: 7,
-      name: '复选框',
+      name: t('checkbox'),
     },
   ]);
 
@@ -138,7 +142,7 @@
   function generateFormDefaultUrl() {
     if (!rawUrl.value) {
       ElMessage({
-        message: '请先填写表单地址!',
+        message: t('Please fill in the form address first'),
         type: 'error',
         duration: 1500,
         showClose: true,
@@ -151,7 +155,7 @@
     if (!rawUrl.value.startsWith(prefix)) {
       // rawUrl 不以指定前缀开始
       ElMessage({
-        message: '表单地址不合法，请检查!',
+        message: t('f1'),
         type: 'error',
         duration: 1500,
         showClose: true,
@@ -190,7 +194,7 @@
     }
 
     ElMessage({
-      message: '生成成功',
+      message: t('Successful generation'),
       type: 'success',
       duration: 1500,
       showClose: true,
@@ -204,7 +208,7 @@
       // 复制
       await toClipboard(formDefaultUrl.value);
       ElMessage({
-        message: '复制成功',
+        message: t('Copy Success'),
         type: 'success',
         duration: 1500,
         showClose: true,
@@ -259,7 +263,7 @@
       <el-collapse-item name="1">
         <template #title>
           <el-icon class="mr5"><InfoFilled /></el-icon>
-          <span class="collapse-title">更多操作信息</span>
+          <span class="collapse-title">{{ $t('More operational information') }}</span>
         </template>
         <div
           class="tip"
@@ -269,25 +273,25 @@
             class="tip-text"
             style="margin-bottom: 0"
           >
-            1. 支持默认值设置的字段类型：普通字段、复选框、日期
+            {{ $t('1') }}
           </div>
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            2. 普通字段包括: 文本、单选、多选、单向关联、双向关联、人员、数字、货币、进度、电话号码、超链接
+            {{ $t('2') }}
           </div>
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            3. 请确保默认值的问题名称与实际表单一致
+            {{ $t('3') }}
           </div>
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            4. 预填多条记录时，请使用逗号分隔（中文/英文皆可）
+            {{ $t('4') }}
           </div>
 
           <div
@@ -300,20 +304,20 @@
                 size="13"
               />
             </div>
-            <span>查看官方文档介绍</span>
+            <span>{{ $t('Check out the official documentation for an introduction') }}</span>
           </div>
         </div>
       </el-collapse-item>
     </el-collapse>
 
     <div class="addView-line">
-      <div class="addView-line-label">表单地址:</div>
+      <div class="addView-line-label">{{ $t('Form address') }}</div>
       <el-input
         style="width: 75%"
         v-model="rawUrl"
         :title="rawUrl"
         clearable
-        placeholder="请输入表单地址"
+        :placeholder="$t('Please enter the form address')"
       />
     </div>
 
@@ -354,7 +358,7 @@
               :title="item.name"
               clearable
               size="small"
-              placeholder="请输入问题名字"
+              :placeholder="$t('Please enter the name of the question')"
             />
           </div>
 
@@ -367,7 +371,7 @@
               :title="item.name"
               @change="filterFiledChange(item, index)"
             >
-              <el-option
+              <!-- <el-option
                 v-for="field in fieldList"
                 :key="field.type"
                 :label="field.name"
@@ -377,6 +381,40 @@
                 <field-icon :fieldType="field.type" />
                 <span>
                   {{ field.name }}
+                </span>
+              </el-option> -->
+
+              <el-option
+                :key="1"
+                :label="$t('General Fields')"
+                :title="$t('General Fields')"
+                :value="1"
+              >
+                <field-icon :fieldType="1" />
+                <span>
+                  {{ t('General Fields') }}
+                </span>
+              </el-option>
+              <el-option
+                :key="5"
+                :label="$t('date')"
+                :title="$t('date')"
+                :value="5"
+              >
+                <field-icon :fieldType="5" />
+                <span>
+                  {{ t('date') }}
+                </span>
+              </el-option>
+              <el-option
+                :key="7"
+                :label="$t('checkbox')"
+                :title="$t('checkbox')"
+                :value="7"
+              >
+                <field-icon :fieldType="7" />
+                <span>
+                  {{ t('checkbox') }}
                 </span>
               </el-option>
             </el-select>
@@ -391,7 +429,7 @@
               v-model="item.value"
               :title="item.value"
               size="small"
-              placeholder="请输入默认值"
+              :placeholder="$t('Please enter the default value')"
               clearable
             />
 
@@ -401,7 +439,7 @@
               v-model="item.value"
               size="small"
               type="datetime"
-              placeholder="请选择日期"
+              :placeholder="$t('Please select a date')"
               format="YYYY/MM/DD HH:mm"
             />
 
@@ -412,17 +450,17 @@
               :title="item.name"
             >
               <el-option
-                label="勾选"
+                :label="$t('tick')"
                 value="1"
               >
-                {{ '勾选' }}
+                {{ $t('tick') }}
               </el-option>
 
               <el-option
-                label="不勾选"
+                :label="$t('unchecked')"
                 value="0"
               >
-                {{ '不勾选' }}
+                {{ $t('unchecked') }}
               </el-option>
             </el-select>
             <!-- suffix-icon="x" -->
@@ -439,7 +477,7 @@
         text
         @click="addFilter"
       >
-        <el-icon><Plus /></el-icon>添加默认值
+        <el-icon class="add-icon"><Plus /></el-icon>{{ $t('Adding default values') }}
       </el-button>
     </div>
 
@@ -449,7 +487,7 @@
         @click="generateFormDefaultUrl"
       >
         <el-icon size="20"><CaretRight /></el-icon>
-        <span>生成默认值地址</span>
+        <span>{{ $t('Generate default value address') }}</span>
       </el-button>
       <div
         class="default-url-text"
@@ -466,7 +504,7 @@
               strokeLinejoin="miter"
               strokeLinecap="butt"
             />
-            <span>单击预览</span>
+            <span>{{ $t('Click to preview') }}</span>
           </div>
           <div
             class="url-icon"
@@ -476,7 +514,7 @@
               theme="outline"
               size="16"
             />
-            <span>单击复制地址</span>
+            <span>{{ $t('Click to copy the address') }}</span>
           </div>
         </div>
       </div>
@@ -641,6 +679,10 @@
     height: 100%;
     width: 1.5px; /* 竖线的宽度 */
     background-color: rgba(31, 35, 41, 0.15); /* 竖线的颜色 */
+  }
+
+  .add-icon {
+    margin-right: 5px;
   }
 </style>
 
