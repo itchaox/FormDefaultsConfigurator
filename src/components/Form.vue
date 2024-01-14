@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-06 19:27
+ * @LastTime   : 2024-01-14 14:15
  * @desc       : 
 -->
 
@@ -146,6 +146,20 @@
       return;
     }
 
+    const prefix = 'https://bcmcjimpjd.feishu.cn/share/base/form';
+
+    if (!rawUrl.value.startsWith(prefix)) {
+      // rawUrl 不以指定前缀开始
+      ElMessage({
+        message: '表单地址不合法，请检查!',
+        type: 'error',
+        duration: 1500,
+        showClose: true,
+      });
+
+      return;
+    }
+
     const queryParams = filterList.value
       .map((item) => {
         // 日期处理
@@ -217,7 +231,7 @@
           placement="right"
           effect="customized"
         >
-          <template #content>查看表单预填默认值<br />更多操作详情</template>
+          <template #content>查看表单预填默认值<br />官方文档介绍</template>
           <el-icon
             class="tip-icon cursor"
             @click="more"
