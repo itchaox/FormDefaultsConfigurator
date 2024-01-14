@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-14 14:15
+ * @LastTime   : 2024-01-14 14:54
  * @desc       : 
 -->
 
@@ -14,7 +14,7 @@
   import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
 
-  import { BrowserSafari, PreviewOpen, PreviewClose } from '@icon-park/vue-next';
+  import { BrowserSafari, PreviewOpen, PreviewClose, DocDetail, CopyLink } from '@icon-park/vue-next';
 
   const rawUrl = ref('');
 
@@ -188,6 +188,13 @@
     } else {
       formDefaultUrl.value = rawUrl.value;
     }
+
+    ElMessage({
+      message: '生成成功',
+      type: 'success',
+      duration: 1500,
+      showClose: true,
+    });
   }
 
   const { toClipboard } = useClipboard();
@@ -224,7 +231,7 @@
 
 <template>
   <div class="home">
-    <div class="tip">
+    <!-- <div class="tip">
       <div class="tip-text title">
         <span>操作步骤：</span>
         <el-tooltip
@@ -242,7 +249,7 @@
       <div class="tip-text">1. 输入表单地址</div>
       <div class="tip-text">2. 添加默认值</div>
       <div class="tip-text">3. 点击【生成默认值地址】按钮即可</div>
-    </div>
+    </div> -->
 
     <el-collapse
       v-model="collapse"
@@ -281,6 +288,19 @@
             style="margin-bottom: 0"
           >
             4. 预填多条记录时，请使用逗号分隔（中文/英文皆可）
+          </div>
+
+          <div
+            @click="more"
+            class="more"
+          >
+            <div>
+              <DocDetail
+                theme="outline"
+                size="13"
+              />
+            </div>
+            <span>查看官方文档介绍</span>
           </div>
         </div>
       </el-collapse-item>
@@ -436,23 +456,29 @@
         v-if="formDefaultUrl"
       >
         <div class="url-label">
-          <span> 表单默认值地址：</span>
-          <BrowserSafari
-            size="18"
+          <div
+            class="url-icon url-icon-preview"
             @click="goUrl"
-            class="icon"
-            theme="outline"
-            strokeLinejoin="miter"
-            strokeLinecap="butt"
-            title="在浏览器中打开"
-          />
+          >
+            <BrowserSafari
+              size="16"
+              theme="outline"
+              strokeLinejoin="miter"
+              strokeLinecap="butt"
+            />
+            <span>单击预览</span>
+          </div>
+          <div
+            class="url-icon"
+            @click="copy"
+          >
+            <CopyLink
+              theme="outline"
+              size="16"
+            />
+            <span>单击复制地址</span>
+          </div>
         </div>
-        <span
-          class="url"
-          @click="copy"
-        >
-          {{ formDefaultUrl }}
-        </span>
       </div>
     </div>
   </div>
@@ -509,7 +535,7 @@
   }
 
   .default-url-text {
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   .url-label {
@@ -568,6 +594,53 @@
   }
   .mr5 {
     margin-right: 5px;
+  }
+
+  .more {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 5px;
+    color: #1456f0;
+    cursor: pointer;
+
+    span {
+      /* margin-left: 5px; */
+      padding-left: 2px;
+    }
+
+    div {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .url-icon {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    margin-right: 18px;
+    color: #1456f0;
+    &:hover {
+      cursor: pointer;
+    }
+
+    span {
+      padding-left: 4px;
+    }
+  }
+
+  .url-icon-preview {
+    position: relative;
+  }
+
+  .url-icon-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -9px; /* 调整竖线的位置 */
+    height: 100%;
+    width: 1.5px; /* 竖线的宽度 */
+    background-color: rgba(31, 35, 41, 0.15); /* 竖线的颜色 */
   }
 </style>
 
