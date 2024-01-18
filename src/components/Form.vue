@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-14 15:50
+ * @LastTime   : 2024-01-19 01:09
  * @desc       : 
 -->
 
@@ -329,7 +329,7 @@
           :key="item.id"
         >
           <el-button
-            size="small"
+            class="show"
             type="danger"
             link
             @click="() => (item.isShow = !item?.isShow)"
@@ -337,14 +337,14 @@
             <preview-open
               v-if="item.isShow"
               theme="outline"
-              size="20"
+              size="24"
               fill="#333"
               strokeLinecap="square"
             />
             <preview-close
               v-else
               theme="outline"
-              size="20"
+              size="24"
               fill="#333"
               strokeLinecap="square"
             />
@@ -357,7 +357,6 @@
               v-model="item.name"
               :title="item.name"
               clearable
-              size="small"
               :placeholder="$t('Please enter the name of the question')"
             />
           </div>
@@ -366,7 +365,6 @@
           <div class="collapse-line-filed">
             <el-select
               style="width: 105%"
-              size="small"
               v-model="item.type"
               :title="item.name"
               @change="filterFiledChange(item, index)"
@@ -428,7 +426,6 @@
               v-if="item.type === 1"
               v-model="item.value"
               :title="item.value"
-              size="small"
               :placeholder="$t('Please enter the default value')"
               clearable
             />
@@ -437,7 +434,6 @@
               v-else-if="item.type === 5"
               style="width: 100%"
               v-model="item.value"
-              size="small"
               type="datetime"
               :placeholder="$t('Please select a date')"
               format="YYYY/MM/DD HH:mm"
@@ -445,7 +441,6 @@
 
             <el-select
               v-else-if="item.type === 7"
-              size="small"
               v-model="item.value"
               :title="item.name"
             >
@@ -548,7 +543,7 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     margin-bottom: 10px;
-    height: 24px;
+    /* height: 24px; */
   }
 
   .collapse-line-filed {
@@ -566,7 +561,7 @@
 
   .collapse-delete {
     padding: 5px;
-    height: 24px;
+    /* height: 24px; */
   }
 
   .default-url {
