@@ -150,19 +150,19 @@
       return;
     }
 
-    const prefix = 'https://bcmcjimpjd.feishu.cn/share/base/form';
+    // const prefix = 'https://bcmcjimpjd.feishu.cn/share/base/form';
 
-    if (!rawUrl.value.startsWith(prefix)) {
-      // rawUrl 不以指定前缀开始
-      ElMessage({
-        message: t('f1'),
-        type: 'error',
-        duration: 1500,
-        showClose: true,
-      });
+    // if (!rawUrl.value.startsWith(prefix)) {
+    //   // rawUrl 不以指定前缀开始
+    //   ElMessage({
+    //     message: t('f1'),
+    //     type: 'error',
+    //     duration: 1500,
+    //     showClose: true,
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const queryParams = filterList.value
       .map((item) => {
