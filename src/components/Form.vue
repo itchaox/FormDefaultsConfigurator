@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-21 15:57
+ * @LastTime   : 2024-01-21 16:03
  * @desc       : 
 -->
 
@@ -402,6 +402,7 @@
             /> -->
 
             <el-select
+              filterable
               v-model="item.id"
               :title="item.name"
               @change="filterFiledChange(item, index)"
@@ -483,6 +484,7 @@
 
             <!-- FIXME 单选 -->
             <el-select
+              filterable
               style="width: 100%"
               v-else-if="item.type === 3"
               v-model="item.value"
@@ -500,6 +502,7 @@
 
             <!-- FIXME 多选 -->
             <el-select
+              filterable
               style="width: 100%"
               v-if="item.type === 4"
               value-key="id"
