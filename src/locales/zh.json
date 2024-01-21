@@ -25,5 +25,11 @@
   "Click to preview": "单击预览",
   "Click to copy the address": "单击复制地址",
   "Please enter": "请输入{0}",
-  "Please select": "请选择{0}"
+  "Please select": "请选择{0}",
+  "Confirm": "确定",
+  "Cancel": "取消",
+  "note": "注意：字段列表已更新，请检查是否影响了问题列表。点击刷新按钮获取最新字段。",
+  "tttt": "执行此操作将重置问题列表，确定要刷新字段下拉框的数据吗？",
+  "refresh": "刷新",
+  "Refresh Successful": "刷新成功"
 }

@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-21 15:06
+ * @LastTime   : 2024-01-21 15:57
  * @desc       : 
 -->
 
@@ -235,9 +235,42 @@
     }));
   }
 
-  onMounted(() => {
-    init();
+  onMounted(async () => {
+    await init();
+
+    table.onFieldAdd(async (event) => {
+      isChange.value = true;
+    });
+
+    table.onFieldModify(async (event) => {
+      isChange.value = true;
+    });
+
+    table.onFieldDelete(async (event) => {
+      isChange.value = true;
+    });
   });
+
+  const isChange = ref(false);
+
+  async function confirmRefresh() {
+    groupList.value = [];
+    let _fieldList = await view.getFieldMetaList();
+
+    groupFieldList.value = _fieldList.filter((item) =>
+      [1, 2, 3, 4, 5, 7, 11, 13, 15, 18, 21, 99001, 99002, 99003].includes(item.type),
+    );
+
+    groupFieldList.value = groupFieldList.value.map((item) => ({
+      name: item.name,
+      id: item.id,
+      type: item.type,
+      value: '',
+    }));
+
+    ElMessage.success(t('Refresh Successful'));
+    isChange.value = false;
+  }
 </script>
 
 <template>
@@ -274,6 +307,7 @@
           >
             {{ $t('3') }}
           </div>
+
           <div
             @click="more"
             class="more"
@@ -289,6 +323,35 @@
         </div>
       </el-collapse-item>
     </el-collapse>
+
+    <template v-if="isChange">
+      <div class="tip-error">
+        <el-icon size="16"><Warning /></el-icon>
+        <span>{{ $t('note') }}</span>
+      </div>
+
+      <el-popconfirm
+        width="60vw"
+        :confirm-button-text="$t('Confirm')"
+        :cancel-button-text="$t('Cancel')"
+        @confirm="confirmRefresh"
+        :icon="InfoFilled"
+        icon-color="rgb(20, 86, 240)"
+        cancel-button-type="info"
+        :hide-after="50"
+        :title="$t('tttt')"
+      >
+        <template #reference>
+          <el-button
+            type="primary"
+            class="refresh"
+          >
+            <el-icon size="16"><Refresh /></el-icon>
+            <span>{{ $t('refresh') }}</span>
+          </el-button>
+        </template>
+      </el-popconfirm>
+    </template>
 
     <div class="addView-line">
       <div class="addView-line-label">{{ $t('Form address') }}</div>
@@ -627,6 +690,21 @@
       cursor: pointer;
       color: #3370ff;
     }
+  }
+
+  .tip-error {
+    color: #f54a45;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 16px;
+    span {
+      margin: 0 3px;
+    }
+  }
+
+  .refresh {
+    margin: 10px 0;
   }
 
   .tip {
