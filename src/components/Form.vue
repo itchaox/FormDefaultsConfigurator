@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-19 01:09
+ * @LastTime   : 2024-01-21 15:06
  * @desc       : 
 -->
 
@@ -11,7 +11,6 @@
   import { bitable } from '@lark-base-open/js-sdk';
   import { Close, CaretRight, InfoFilled } from '@element-plus/icons-vue';
   import FieldIcon from './fieldIcon.jsx';
-  import { v4 as uuidv4 } from 'uuid';
   import { dayjs } from 'element-plus';
 
   import { useI18n } from 'vue-i18n';
@@ -25,107 +24,76 @@
   import useClipboard from 'vue-clipboard3';
 
   // FIXME 筛选
-  const filterList = ref([]);
+  const groupList = ref([]);
 
-  const addFilter = () => {
-    filterList.value.push({
-      type: 1,
-      id: uuidv4(), // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
-      name: '',
-      value: '',
-      isShow: true,
-    });
+  const addFilter = async () => {
+    const idsInGroup = groupList.value.map((item) => item.id);
+    const _list = groupFieldList.value.filter((item) => !idsInGroup.includes(item.id));
+
+    if (_list?.[0]) {
+      let { id, name, type } = _list?.[0];
+      let options = [];
+
+      if (_list[0]?.type === 3 || _list[0]?.type === 4) {
+        // 单选/多选
+        const selectField = await table.getField(id);
+        options = await selectField.getOptions();
+      }
+
+      if (_list[0]?.type === 7) {
+        groupList.value.push({
+          name,
+          type,
+          id,
+          isShow: true,
+          value: '1',
+        });
+      } else {
+        groupList.value.push({
+          id,
+          name,
+          type,
+          isShow: true,
+          options,
+          value: '',
+        });
+      }
+    }
   };
 
-  // 字段列表
-
-  const fieldList = ref([
-    {
-      type: 1,
-      name: t('General Fields'),
-    },
-    {
-      type: 5,
-      name: t('date'),
-    },
-    {
-      type: 7,
-      name: t('checkbox'),
-    },
-  ]);
-
-  // const fieldList = ref([
-  //   {
-  //     type: 1,
-  //     name: '文本',
-  //   },
-  //   {
-  //     type: 2,
-  //     name: '数字',
-  //   },
-  //   {
-  //     type: 3,
-  //     name: '单选',
-  //   },
-  //   {
-  //     type: 4,
-  //     name: '多选',
-  //   },
-  //   {
-  //     type: 5,
-  //     name: '日期',
-  //   },
-  //   {
-  //     type: 7,
-  //     name: '复选框',
-  //   },
-  //   {
-  //     type: 11,
-  //     name: '人员',
-  //   },
-  //   {
-  //     type: 13,
-  //     name: '电话号码',
-  //   },
-  //   {
-  //     type: 18,
-  //     name: '单向关联',
-  //   },
-  //   {
-  //     type: 21,
-  //     name: '双向关联',
-  //   },
-  //   {
-  //     type: 99002,
-  //     name: '进度',
-  //   },
-  //   {
-  //     type: 99003,
-  //     name: '货币',
-  //   },
-  // ]);
-
   const filterFiledChange = async (item, index) => {
-    item.value = '';
+    let _activeItem = groupFieldList.value.find((i) => i.id === item.id);
 
-    if (item.type === 7) {
-      filterList.value[index] = {
-        ...filterList.value[index],
+    if (_activeItem?.type === 3 || _activeItem?.type === 4) {
+      // 单选/多选
+      const selectField = await table.getField(item.id);
+      let options = await selectField.getOptions();
+      // 更新选项
+      groupList.value[index] = {
+        options: options || [],
+        name: _activeItem.name,
+        type: _activeItem.type,
+        id: _activeItem.id,
+        isShow: true,
+        value: '',
+      };
+    } else if (_activeItem.type === 7) {
+      groupList.value[index] = {
+        name: _activeItem.name,
+        type: _activeItem.type,
+        id: _activeItem.id,
+        isShow: true,
         value: '1',
       };
+    } else {
+      groupList.value[index] = {
+        name: _activeItem.name,
+        type: _activeItem.type,
+        id: _activeItem.id,
+        isShow: true,
+        value: '',
+      };
     }
-
-    // let _activeItem = fieldList.value.find((i) => i.id === item.id);
-    // // 文本项\数字类,不需要再掉数据
-    // if (textMap.value.includes(_activeItem?.type)) {
-    //   filterList.value[index] = {
-    //     name: _activeItem.name,
-    //     type: _activeItem.type,
-    //     id: _activeItem.id,
-    //     operator: 'is',
-    //     value: '',
-    //   };
-    // }
   };
 
   const formDefaultUrl = ref();
@@ -164,13 +132,25 @@
     //   return;
     // }
 
-    const queryParams = filterList.value
-      .map((item) => {
-        // 日期处理
-        let _formateTime = item.type === 5 && dayjs(item.value).format('YYYY/MM/DD HH:mm');
+    console.log(groupList.value);
 
-        // 将中文逗号替换为英文逗号
-        const processedValue = item.type === 5 ? _formateTime : item.value.replace(/，/g, ',');
+    const queryParams = groupList.value
+      .map((item) => {
+        let processedValue;
+
+        switch (item.type) {
+          case 5:
+            processedValue = dayjs(item.value).format('YYYY/MM/DD HH:mm');
+            break;
+          case 3:
+            processedValue = item.value.name;
+            break;
+          case 4:
+            processedValue = item.value.map((i) => i.name).join(',');
+            break;
+          default:
+            processedValue = item.value.replace(/，/g, ',');
+        }
 
         let _data;
 
@@ -231,30 +211,37 @@
   }
 
   const collapse = ref('0');
+
+  // 筛选的字段列表
+  const groupFieldList = ref([]);
+
+  let table;
+  let view;
+
+  async function init() {
+    table = await bitable.base.getActiveTable();
+    view = await table.getActiveView();
+    let _fieldList = await view.getFieldMetaList();
+
+    groupFieldList.value = _fieldList.filter((item) =>
+      [1, 2, 3, 4, 5, 7, 11, 13, 15, 18, 21, 99001, 99002, 99003].includes(item.type),
+    );
+
+    groupFieldList.value = groupFieldList.value.map((item) => ({
+      name: item.name,
+      id: item.id,
+      type: item.type,
+      value: '',
+    }));
+  }
+
+  onMounted(() => {
+    init();
+  });
 </script>
 
 <template>
   <div class="home">
-    <!-- <div class="tip">
-      <div class="tip-text title">
-        <span>操作步骤：</span>
-        <el-tooltip
-          placement="right"
-          effect="customized"
-        >
-          <template #content>查看表单预填默认值<br />官方文档介绍</template>
-          <el-icon
-            class="tip-icon cursor"
-            @click="more"
-            ><QuestionFilled
-          /></el-icon>
-        </el-tooltip>
-      </div>
-      <div class="tip-text">1. 输入表单地址</div>
-      <div class="tip-text">2. 添加默认值</div>
-      <div class="tip-text">3. 点击【生成默认值地址】按钮即可</div>
-    </div> -->
-
     <el-collapse
       v-model="collapse"
       class="collapse"
@@ -273,19 +260,7 @@
             class="tip-text"
             style="margin-bottom: 0"
           >
-            {{ $t('1') }}
-          </div>
-          <div
-            class="tip-text"
-            style="margin-bottom: 0"
-          >
             {{ $t('2') }}
-          </div>
-          <div
-            class="tip-text"
-            style="margin-bottom: 0"
-          >
-            {{ $t('3') }}
           </div>
           <div
             class="tip-text"
@@ -293,7 +268,12 @@
           >
             {{ $t('4') }}
           </div>
-
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            {{ $t('3') }}
+          </div>
           <div
             @click="more"
             class="more"
@@ -325,7 +305,7 @@
       <div class="collapse-line-list">
         <div
           class="collapse-line"
-          v-for="(item, index) in filterList"
+          v-for="(item, index) in groupList"
           :key="item.id"
         >
           <el-button
@@ -349,38 +329,44 @@
               strokeLinecap="square"
             />
           </el-button>
-          <div
-            class="collapse-line-value"
-            style="width: 50%"
-          >
-            <el-input
+
+          <div class="collapse-line-value">
+            <!-- <el-input
               v-model="item.name"
               :title="item.name"
               clearable
               :placeholder="$t('Please enter the name of the question')"
-            />
+            /> -->
+
+            <el-select
+              v-model="item.id"
+              :title="item.name"
+              @change="filterFiledChange(item, index)"
+            >
+              <el-option
+                v-for="field in groupFieldList"
+                :key="field.id"
+                :label="field.name"
+                :title="field.name"
+                :value="field.id"
+                :disabled="groupList.map((j) => j.id).includes(field.id)"
+              >
+                <field-icon :fieldType="field.type" />
+                <span>
+                  {{ field.name }}
+                </span>
+              </el-option>
+            </el-select>
           </div>
 
           <!-- 字段名 -->
-          <div class="collapse-line-filed">
+          <!-- <div class="collapse-line-filed">
             <el-select
               style="width: 105%"
               v-model="item.type"
               :title="item.name"
               @change="filterFiledChange(item, index)"
             >
-              <!-- <el-option
-                v-for="field in fieldList"
-                :key="field.type"
-                :label="field.name"
-                :title="field.name"
-                :value="field.type"
-              >
-                <field-icon :fieldType="field.type" />
-                <span>
-                  {{ field.name }}
-                </span>
-              </el-option> -->
 
               <el-option
                 :key="1"
@@ -416,19 +402,58 @@
                 </span>
               </el-option>
             </el-select>
-          </div>
+          </div> -->
+
           <!-- 值 -->
           <div
             class="collapse-line-value"
             style="width: 50%"
           >
+            <!-- FIXME 输入框 -->
             <el-input
-              v-if="item.type === 1"
+              v-if="[1, 2, 11, 99003, 99002, 99001, 13, 15, 18, 21].includes(item.type)"
               v-model="item.value"
               :title="item.value"
-              :placeholder="$t('Please enter the default value')"
+              :placeholder="$t('Please enter', [item.name])"
               clearable
             />
+
+            <!-- FIXME 单选 -->
+            <el-select
+              style="width: 100%"
+              v-else-if="item.type === 3"
+              v-model="item.value"
+              value-key="id"
+              :title="item?.options?.find((i) => i.id === item.value)?.name"
+              :placeholder="$t('Please select', [item.name])"
+            >
+              <el-option
+                v-for="j in item.options"
+                :key="j.id"
+                :label="j.name"
+                :value="j"
+              />
+            </el-select>
+
+            <!-- FIXME 多选 -->
+            <el-select
+              style="width: 100%"
+              v-if="item.type === 4"
+              value-key="id"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              v-model="item.value"
+              :title="item?.options?.find((i) => i.id === item.value)?.name"
+              :placeholder="$t('Please select', [item.name])"
+            >
+              <el-option
+                v-for="j in item.options"
+                :key="j.id"
+                :label="j.name"
+                :value="j"
+              />
+            </el-select>
 
             <el-date-picker
               v-else-if="item.type === 5"
@@ -440,9 +465,11 @@
             />
 
             <el-select
+              style="width: 100%"
               v-else-if="item.type === 7"
               v-model="item.value"
               :title="item.name"
+              :placeholder="$t('Please select', [item.name])"
             >
               <el-option
                 :label="$t('tick')"
@@ -463,12 +490,13 @@
           <el-button
             :icon="Close"
             class="collapse-delete"
-            @click="() => filterList.splice(index, 1)"
+            @click="() => groupList.splice(index, 1)"
             text
           />
         </div>
       </div>
       <el-button
+        v-if="groupFieldList.length > groupList.length"
         class="add"
         text
         @click="addFilter"
