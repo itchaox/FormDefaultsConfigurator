@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-21 16:03
+ * @LastTime   : 2024-01-22 23:11
  * @desc       : 
 -->
 
@@ -393,15 +393,21 @@
             />
           </el-button>
 
-          <div class="collapse-line-value">
-            <!-- <el-input
+          <div
+            class="collapse-line-value line1"
+            style="width: 50%"
+          >
+            <el-input
+              v-if="item.isOtherFiled"
               v-model="item.name"
               :title="item.name"
               clearable
               :placeholder="$t('Please enter the name of the question')"
-            /> -->
+            />
 
             <el-select
+              style="width: 100%"
+              v-else
               filterable
               v-model="item.id"
               :title="item.name"
@@ -421,52 +427,19 @@
                 </span>
               </el-option>
             </el-select>
+
+            <el-icon
+              class="edit"
+              size="20"
+              @click="
+                () => {
+                  item.isOtherFiled = true;
+                  item.name = '';
+                }
+              "
+              ><Edit
+            /></el-icon>
           </div>
-
-          <!-- 字段名 -->
-          <!-- <div class="collapse-line-filed">
-            <el-select
-              style="width: 105%"
-              v-model="item.type"
-              :title="item.name"
-              @change="filterFiledChange(item, index)"
-            >
-
-              <el-option
-                :key="1"
-                :label="$t('General Fields')"
-                :title="$t('General Fields')"
-                :value="1"
-              >
-                <field-icon :fieldType="1" />
-                <span>
-                  {{ t('General Fields') }}
-                </span>
-              </el-option>
-              <el-option
-                :key="5"
-                :label="$t('date')"
-                :title="$t('date')"
-                :value="5"
-              >
-                <field-icon :fieldType="5" />
-                <span>
-                  {{ t('date') }}
-                </span>
-              </el-option>
-              <el-option
-                :key="7"
-                :label="$t('checkbox')"
-                :title="$t('checkbox')"
-                :value="7"
-              >
-                <field-icon :fieldType="7" />
-                <span>
-                  {{ t('checkbox') }}
-                </span>
-              </el-option>
-            </el-select>
-          </div> -->
 
           <!-- 值 -->
           <div
@@ -650,7 +623,7 @@
   }
 
   .collapse-line-value {
-    margin: 0 5px;
+    /* margin: 0 5px; */
   }
 
   .collapse-delete {
@@ -793,6 +766,19 @@
   .add {
     color: #1456f0 !important;
     font-size: 16px;
+  }
+
+  .line1 {
+    display: flex;
+    align-items: center;
+  }
+
+  .edit {
+    margin: 0 10px 0 5px;
+    &:hover {
+      color: #1456f0 !important;
+      cursor: pointer;
+    }
   }
 </style>
 
