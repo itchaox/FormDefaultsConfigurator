@@ -3,6 +3,8 @@
   "2": "1. Support field format: text, radio, multiple choice, one-way association, two-way association, person, number, currency, progress, telephone number, hyperlink, date, check box",
   "3": "3. Click on the button in front of the question name to show or hide the default value question.",
   "4": "2. When pre-filling multiple records, please use commas to separate them (both Chinese/English are acceptable)",
+  "41": " 4. Please ensure that the question name of the default value corresponds to the actual form",
+  "51": "5. If the name of the issue is not found in the drop-down box of the list of issues, enter it yourself by clicking on the edit button.",
   "title": "Title",
   "General Fields": "General Field",
   "date": "Date",

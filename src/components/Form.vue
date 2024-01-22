@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-22 23:11
+ * @LastTime   : 2024-01-22 23:16
  * @desc       : 
 -->
 
@@ -306,6 +306,20 @@
             style="margin-bottom: 0"
           >
             {{ $t('3') }}
+          </div>
+
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            {{ $t('41') }}
+          </div>
+
+          <div
+            class="tip-text"
+            style="margin-bottom: 0"
+          >
+            {{ $t('51') }}
           </div>
 
           <div
