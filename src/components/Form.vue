@@ -2,26 +2,26 @@
  * @Version    : v1.00
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
- * @LastAuthor : wangchao
- * @LastTime   : 2024-01-24 12:34
+ * @LastAuthor : itchaox
+ * @LastTime   : 2024-01-25 00:22
  * @desc       : 
 -->
 
 <script setup lang="ts">
-  import { bitable } from "@lark-base-open/js-sdk";
-  import { Close, CaretRight, InfoFilled } from "@element-plus/icons-vue";
-  import FieldIcon from "./fieldIcon.jsx";
-  import { dayjs } from "element-plus";
+  import { bitable } from '@lark-base-open/js-sdk';
+  import { Close, CaretRight, InfoFilled } from '@element-plus/icons-vue';
+  import FieldIcon from './fieldIcon.jsx';
+  import { dayjs } from 'element-plus';
 
-  import { useI18n } from "vue-i18n";
+  import { useI18n } from 'vue-i18n';
 
   const { t } = useI18n();
 
-  import { BrowserSafari, PreviewOpen, PreviewClose, DocDetail, CopyLink } from "@icon-park/vue-next";
+  import { BrowserSafari, PreviewOpen, PreviewClose, DocDetail, CopyLink } from '@icon-park/vue-next';
 
-  const rawUrl = ref("");
+  const rawUrl = ref('');
 
-  import useClipboard from "vue-clipboard3";
+  import useClipboard from 'vue-clipboard3';
 
   // FIXME 筛选
   const groupList = ref([]);
@@ -46,7 +46,7 @@
           type,
           id,
           isShow: true,
-          value: "1",
+          value: '1',
         });
       } else {
         groupList.value.push({
@@ -55,7 +55,7 @@
           type,
           isShow: true,
           options,
-          value: "",
+          value: '',
         });
       }
     }
@@ -71,7 +71,7 @@
         type: 1,
         id: item?.id,
         isShow: true,
-        value: "",
+        value: '',
       };
       return;
     }
@@ -88,7 +88,7 @@
         type: _activeItem.type,
         id: _activeItem.id,
         isShow: true,
-        value: "",
+        value: '',
       };
     } else if (_activeItem.type === 7) {
       groupList.value[index] = {
@@ -96,7 +96,7 @@
         type: _activeItem.type,
         id: _activeItem.id,
         isShow: true,
-        value: "1",
+        value: '1',
       };
     } else {
       groupList.value[index] = {
@@ -104,7 +104,7 @@
         type: _activeItem?.type,
         id: _activeItem?.id,
         isShow: true,
-        value: "",
+        value: '',
       };
     }
   };
@@ -113,7 +113,7 @@
 
   watchEffect(() => {
     if (!rawUrl.value) {
-      formDefaultUrl.value = "";
+      formDefaultUrl.value = '';
     }
   });
 
@@ -123,8 +123,8 @@
   function generateFormDefaultUrl() {
     if (!rawUrl.value) {
       ElMessage({
-        message: t("Please fill in the form address first"),
-        type: "error",
+        message: t('Please fill in the form address first'),
+        type: 'error',
         duration: 1500,
         showClose: true,
       });
@@ -153,16 +153,16 @@
 
         switch (item.type) {
           case 5:
-            processedValue = dayjs(item.value).format("YYYY/MM/DD HH:mm");
+            processedValue = dayjs(item.value).format('YYYY/MM/DD HH:mm');
             break;
           case 3:
             processedValue = item.value.name;
             break;
           case 4:
-            processedValue = item.value.map((i) => i.name).join(",");
+            processedValue = item.value.map((i) => i.name).join(',');
             break;
           default:
-            processedValue = item.value.replace(/，/g, ",");
+            processedValue = item.value.replace(/，/g, ',');
         }
 
         let _data;
@@ -178,7 +178,7 @@
 
         return _data;
       })
-      .join("&");
+      .join('&');
 
     if (queryParams) {
       formDefaultUrl.value = rawUrl.value + `?${queryParams}`;
@@ -187,8 +187,8 @@
     }
 
     ElMessage({
-      message: t("Successful generation"),
-      type: "success",
+      message: t('Successful generation'),
+      type: 'success',
       duration: 1500,
       showClose: true,
     });
@@ -201,8 +201,8 @@
       // 复制
       await toClipboard(formDefaultUrl.value);
       ElMessage({
-        message: t("Copy Success"),
-        type: "success",
+        message: t('Copy Success'),
+        type: 'success',
         duration: 1500,
         showClose: true,
       });
@@ -213,17 +213,17 @@
   }
 
   function goUrl() {
-    window.open(formDefaultUrl.value, "_blank");
+    window.open(formDefaultUrl.value, '_blank');
   }
 
   function more() {
     window.open(
-      "https://www.feishu.cn/hc/zh-CN/articles/763023425825-%E8%AE%BE%E7%BD%AE%E8%A1%A8%E5%8D%95%E9%A2%84%E5%A1%AB%E9%BB%98%E8%AE%A4%E5%80%BC",
-      "_blank",
+      'https://www.feishu.cn/hc/zh-CN/articles/763023425825-%E8%AE%BE%E7%BD%AE%E8%A1%A8%E5%8D%95%E9%A2%84%E5%A1%AB%E9%BB%98%E8%AE%A4%E5%80%BC',
+      '_blank',
     );
   }
 
-  const collapse = ref("0");
+  const collapse = ref('0');
 
   // 筛选的字段列表
   const groupFieldList = ref([]);
@@ -244,7 +244,7 @@
       name: item.name,
       id: item.id,
       type: item.type,
-      value: "",
+      value: '',
     }));
   }
 
@@ -278,10 +278,10 @@
       name: item.name,
       id: item.id,
       type: item.type,
-      value: "",
+      value: '',
     }));
 
-    ElMessage.success(t("Refresh Successful"));
+    ElMessage.success(t('Refresh Successful'));
     isChange.value = false;
   }
 </script>
@@ -296,7 +296,7 @@
       <el-collapse-item name="1">
         <template #title>
           <el-icon class="mr5"><InfoFilled /></el-icon>
-          <span class="collapse-title">{{ $t("More operational information") }}</span>
+          <span class="collapse-title">{{ $t('More operational information') }}</span>
         </template>
         <div
           class="tip"
@@ -306,33 +306,27 @@
             class="tip-text"
             style="margin-bottom: 0"
           >
-            {{ $t("2") }}
+            {{ $t('2') }}
           </div>
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            {{ $t("4") }}
-          </div>
-          <div
-            class="tip-text"
-            style="margin-bottom: 0"
-          >
-            {{ $t("3") }}
+            {{ $t('4') }}
           </div>
 
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            {{ $t("41") }}
+            {{ $t('41') }}
           </div>
 
           <div
             class="tip-text"
             style="margin-bottom: 0"
           >
-            {{ $t("51") }}
+            {{ $t('51') }}
           </div>
 
           <div
@@ -345,7 +339,7 @@
                 size="13"
               />
             </div>
-            <span>{{ $t("Check out the official documentation for an introduction") }}</span>
+            <span>{{ $t('Check out the official documentation for an introduction') }}</span>
           </div>
         </div>
       </el-collapse-item>
@@ -354,7 +348,7 @@
     <template v-if="isChange">
       <div class="tip-error">
         <el-icon size="16"><Warning /></el-icon>
-        <span>{{ $t("note") }}</span>
+        <span>{{ $t('note') }}</span>
       </div>
 
       <el-popconfirm
@@ -374,14 +368,14 @@
             class="refresh"
           >
             <el-icon size="16"><Refresh /></el-icon>
-            <span>{{ $t("refresh") }}</span>
+            <span>{{ $t('refresh') }}</span>
           </el-button>
         </template>
       </el-popconfirm>
     </template>
 
     <div class="addView-line">
-      <div class="addView-line-label">{{ $t("Form address") }}</div>
+      <div class="addView-line-label">{{ $t('Form address') }}</div>
       <el-input
         style="width: 75%"
         v-model="rawUrl"
@@ -520,51 +514,43 @@
                 :label="$t('tick')"
                 value="1"
               >
-                {{ $t("tick") }}
+                {{ $t('tick') }}
               </el-option>
 
               <el-option
                 :label="$t('unchecked')"
                 value="0"
               >
-                {{ $t("unchecked") }}
+                {{ $t('unchecked') }}
               </el-option>
             </el-select>
             <!-- suffix-icon="x" -->
           </div>
-          <el-button
-            class="show"
-            type="danger"
-            link
-            @click="() => (item.isShow = !item?.isShow)"
-          >
-            <preview-open
-              v-if="item.isShow"
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-            <preview-close
-              v-else
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-          </el-button>
+          <div class="show">
+            <template v-if="item.isShow">
+              <preview-open
+                @click="() => (item.isShow = !item?.isShow)"
+                class="option-btn"
+                theme="outline"
+                size="24"
+                fill="#333"
+                strokeLinecap="square"
+              />
+              <div style="color: #333">显示</div>
+            </template>
 
-          <div
-            v-if="item.isShow"
-            style="color: rgb(20, 86, 240)"
-          >
-            显示
-          </div>
-          <div
-            v-else
-            style="color: #bbbfc4"
-          >
-            隐藏
+            <template v-else>
+              <preview-close
+                @click="() => (item.isShow = !item?.isShow)"
+                class="option-btn"
+                theme="outline"
+                size="24"
+                fill="#bbbfc4"
+                strokeLinecap="square"
+              />
+
+              <div style="color: #bbbfc4">隐藏</div>
+            </template>
           </div>
 
           <el-button
@@ -581,7 +567,7 @@
         text
         @click="addFilter"
       >
-        <el-icon class="add-icon"><Plus /></el-icon>{{ $t("Adding default values") }}
+        <el-icon class="add-icon"><Plus /></el-icon>{{ $t('Adding default values') }}
       </el-button>
     </div>
 
@@ -591,7 +577,7 @@
         @click="generateFormDefaultUrl"
       >
         <el-icon size="20"><CaretRight /></el-icon>
-        <span>{{ $t("Generate default value address") }}</span>
+        <span>{{ $t('Generate default value address') }}</span>
       </el-button>
       <div
         class="default-url-text"
@@ -608,7 +594,7 @@
               strokeLinejoin="miter"
               strokeLinecap="butt"
             />
-            <span>{{ $t("Click to preview") }}</span>
+            <span>{{ $t('Click to preview') }}</span>
           </div>
           <div
             class="url-icon"
@@ -618,7 +604,7 @@
               theme="outline"
               size="16"
             />
-            <span>{{ $t("Click to copy the address") }}</span>
+            <span>{{ $t('Click to copy the address') }}</span>
           </div>
         </div>
       </div>
@@ -791,7 +777,7 @@
   }
 
   .url-icon-preview::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: -9px; /* 调整竖线的位置 */
@@ -821,6 +807,20 @@
       color: #1456f0 !important;
       cursor: pointer;
     }
+  }
+
+  .option-btn {
+    margin-right: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .show {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 2px 0 8px;
   }
 </style>
 
