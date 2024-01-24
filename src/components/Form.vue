@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-01-25 00:22
+ * @LastTime   : 2024-01-25 00:53
  * @desc       : 
 -->
 
@@ -81,6 +81,7 @@
       // 单选/多选
       const selectField = await table.getField(item.id);
       let options = await selectField.getOptions();
+
       // 更新选项
       groupList.value[index] = {
         options: options || [],
@@ -248,8 +249,10 @@
     }));
   }
 
+  const selectOptColorInfo = ref();
   onMounted(async () => {
     await init();
+    selectOptColorInfo.value = await bitable.ui.getSelectOptionColorInfoList();
 
     table.onFieldAdd(async (event) => {
       isChange.value = true;
@@ -470,7 +473,17 @@
                 :key="j.id"
                 :label="j.name"
                 :value="j"
-              />
+              >
+                <span
+                  class="option-class"
+                  :style="{
+                    'background-color': selectOptColorInfo.find((x) => x.id === j.color)?.bgColor,
+                    color: selectOptColorInfo.find((y) => y.id === j.color)?.textColor,
+                  }"
+                >
+                  {{ j.name }}
+                </span>
+              </el-option>
             </el-select>
 
             <!-- FIXME 多选 -->
@@ -491,7 +504,17 @@
                 :key="j.id"
                 :label="j.name"
                 :value="j"
-              />
+              >
+                <span
+                  class="option-class"
+                  :style="{
+                    'background-color': selectOptColorInfo.find((x) => x.id === j.color)?.bgColor,
+                    color: selectOptColorInfo.find((y) => y.id === j.color)?.textColor,
+                  }"
+                >
+                  {{ j.name }}
+                </span>
+              </el-option>
             </el-select>
 
             <el-date-picker
@@ -821,6 +844,11 @@
     align-items: center;
     white-space: nowrap;
     margin: 0 2px 0 8px;
+  }
+
+  .option-class {
+    padding: 2px 10px;
+    border-radius: 20px;
   }
 </style>
 
