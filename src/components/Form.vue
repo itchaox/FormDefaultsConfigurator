@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : wangchao
- * @LastTime   : 2024-01-23 09:53
+ * @LastTime   : 2024-01-24 12:34
  * @desc       : 
 -->
 
@@ -398,28 +398,6 @@
           v-for="(item, index) in groupList"
           :key="item.id"
         >
-          <el-button
-            class="show"
-            type="danger"
-            link
-            @click="() => (item.isShow = !item?.isShow)"
-          >
-            <preview-open
-              v-if="item.isShow"
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-            <preview-close
-              v-else
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-          </el-button>
-
           <div
             class="collapse-line-value line1"
             style="width: 50%"
@@ -555,6 +533,41 @@
             <!-- suffix-icon="x" -->
           </div>
           <el-button
+            class="show"
+            type="danger"
+            link
+            @click="() => (item.isShow = !item?.isShow)"
+          >
+            <preview-open
+              v-if="item.isShow"
+              theme="outline"
+              size="24"
+              fill="#333"
+              strokeLinecap="square"
+            />
+            <preview-close
+              v-else
+              theme="outline"
+              size="24"
+              fill="#333"
+              strokeLinecap="square"
+            />
+          </el-button>
+
+          <div
+            v-if="item.isShow"
+            style="color: rgb(20, 86, 240)"
+          >
+            显示
+          </div>
+          <div
+            v-else
+            style="color: #bbbfc4"
+          >
+            隐藏
+          </div>
+
+          <el-button
             :icon="Close"
             class="collapse-delete"
             @click="() => groupList.splice(index, 1)"
@@ -636,7 +649,7 @@
   .collapse-line {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-bottom: 10px;
     /* height: 24px; */
   }
