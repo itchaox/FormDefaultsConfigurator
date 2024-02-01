@@ -83,6 +83,7 @@
       // 单选/多选
       const selectField = await table.getField(item.id);
       let options = await selectField.getOptions();
+
       // 更新选项
       groupList.value[index] = {
         options: options || [],
@@ -250,8 +251,10 @@
     }));
   }
 
+  const selectOptColorInfo = ref();
   onMounted(async () => {
     await init();
+    selectOptColorInfo.value = await bitable.ui.getSelectOptionColorInfoList();
 
     table.onFieldAdd(async (event) => {
       isChange.value = true;
@@ -325,12 +328,6 @@
             style="margin-bottom: 0"
           >
             {{ $t("4") }}
-          </div>
-          <div
-            class="tip-text"
-            style="margin-bottom: 0"
-          >
-            {{ $t("3") }}
           </div>
 
           <div
@@ -488,7 +485,17 @@
                 :key="j.id"
                 :label="j.name"
                 :value="j"
-              />
+              >
+                <span
+                  class="option-class"
+                  :style="{
+                    'background-color': selectOptColorInfo.find((x) => x.id === j.color)?.bgColor,
+                    color: selectOptColorInfo.find((y) => y.id === j.color)?.textColor,
+                  }"
+                >
+                  {{ j.name }}
+                </span>
+              </el-option>
             </el-select>
 
             <!-- FIXME 多选 -->
@@ -509,7 +516,17 @@
                 :key="j.id"
                 :label="j.name"
                 :value="j"
-              />
+              >
+                <span
+                  class="option-class"
+                  :style="{
+                    'background-color': selectOptColorInfo.find((x) => x.id === j.color)?.bgColor,
+                    color: selectOptColorInfo.find((y) => y.id === j.color)?.textColor,
+                  }"
+                >
+                  {{ j.name }}
+                </span>
+              </el-option>
             </el-select>
 
             <el-date-picker
@@ -544,39 +561,31 @@
             </el-select>
             <!-- suffix-icon="x" -->
           </div>
-          <el-button
-            class="show"
-            type="danger"
-            link
-            @click="() => (item.isShow = !item?.isShow)"
-          >
-            <preview-open
-              v-if="item.isShow"
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-            <preview-close
-              v-else
-              theme="outline"
-              size="24"
-              fill="#333"
-              strokeLinecap="square"
-            />
-          </el-button>
+          <div class="show">
+            <template v-if="item.isShow">
+              <preview-open
+                @click="() => (item.isShow = !item?.isShow)"
+                class="option-btn"
+                theme="outline"
+                size="24"
+                fill="#333"
+                strokeLinecap="square"
+              />
+              <div style="color: #333">显示</div>
+            </template>
 
-          <div
-            v-if="item.isShow"
-            style="color: rgb(20, 86, 240)"
-          >
-            显示
-          </div>
-          <div
-            v-else
-            style="color: #bbbfc4"
-          >
-            隐藏
+            <template v-else>
+              <preview-close
+                @click="() => (item.isShow = !item?.isShow)"
+                class="option-btn"
+                theme="outline"
+                size="24"
+                fill="#bbbfc4"
+                strokeLinecap="square"
+              />
+
+              <div style="color: #bbbfc4">隐藏</div>
+            </template>
           </div>
 
           <el-button
@@ -874,6 +883,25 @@
 
   .qr-code-img {
     box-sizing: border-box;
+  }
+
+  .option-btn {
+    margin-right: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .show {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 2px 0 8px;
+  }
+
+  .option-class {
+    padding: 2px 10px;
+    border-radius: 20px;
   }
 </style>
 
