@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : wangchao
- * @LastTime   : 2024-01-24 12:34
+ * @LastTime   : 2024-02-01 12:28
  * @desc       : 
 -->
 
@@ -14,6 +14,8 @@
   import { dayjs } from "element-plus";
 
   import { useI18n } from "vue-i18n";
+
+  import QrcodeVue, { Level, RenderAs } from "qrcode.vue";
 
   const { t } = useI18n();
 
@@ -283,6 +285,16 @@
 
     ElMessage.success(t("Refresh Successful"));
     isChange.value = false;
+  }
+
+  const level = ref<Level>("M");
+  const renderAs = ref<RenderAs>("canvas");
+
+  function downloadQr() {
+    const link = document.createElement("a");
+    link.download = `表单默认值地址二维码.png`;
+    link.href = (document.getElementById("qr-code") as HTMLCanvasElement).toDataURL();
+    link.click();
   }
 </script>
 
@@ -621,6 +633,24 @@
             <span>{{ $t("Click to copy the address") }}</span>
           </div>
         </div>
+
+        <div class="qr-code-class">
+          <div class="qr-code-text">扫码预览</div>
+          <qrcode-vue
+            id="qr-code"
+            class="qr-code-img"
+            :value="formDefaultUrl"
+            :level="level"
+            :size="135"
+            :render-as="renderAs"
+          />
+          <div class="download-btn">
+            <el-button @click="downloadQr">
+              <el-icon><Download /></el-icon>
+              <span>下载</span>
+            </el-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -821,6 +851,29 @@
       color: #1456f0 !important;
       cursor: pointer;
     }
+  }
+
+  .qr-code-class {
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #dee0e3;
+  }
+
+  .qr-code-text {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .download-btn {
+    margin-top: 10px;
+  }
+
+  .qr-code-img {
+    box-sizing: border-box;
   }
 </style>
 
