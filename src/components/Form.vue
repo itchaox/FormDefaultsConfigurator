@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : wangchao
- * @LastTime   : 2024-02-01 12:28
+ * @LastTime   : 2024-02-01 14:43
  * @desc       : 
 -->
 
@@ -295,7 +295,7 @@
 
   function downloadQr() {
     const link = document.createElement("a");
-    link.download = `表单默认值地址二维码.png`;
+    link.download = t("Form default value address QR code");
     link.href = (document.getElementById("qr-code") as HTMLCanvasElement).toDataURL();
     link.click();
   }
@@ -571,7 +571,7 @@
                 fill="#333"
                 strokeLinecap="square"
               />
-              <div style="color: #333">显示</div>
+              <div style="color: #333">{{ $t("show") }}</div>
             </template>
 
             <template v-else>
@@ -584,7 +584,7 @@
                 strokeLinecap="square"
               />
 
-              <div style="color: #bbbfc4">隐藏</div>
+              <div style="color: #bbbfc4">{{ $t("hide") }}</div>
             </template>
           </div>
 
@@ -644,19 +644,19 @@
         </div>
 
         <div class="qr-code-class">
-          <div class="qr-code-text">扫码预览</div>
+          <div class="qr-code-text">{{ $t("Scan code preview") }}</div>
           <qrcode-vue
             id="qr-code"
             class="qr-code-img"
             :value="formDefaultUrl"
             :level="level"
-            :size="135"
+            :size="150"
             :render-as="renderAs"
           />
           <div class="download-btn">
             <el-button @click="downloadQr">
               <el-icon><Download /></el-icon>
-              <span>下载</span>
+              <span>{{ $t("download") }}</span>
             </el-button>
           </div>
         </div>
@@ -875,6 +875,7 @@
   .qr-code-text {
     margin-bottom: 10px;
     font-size: 16px;
+    color: #1f2329;
   }
 
   .download-btn {

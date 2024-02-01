@@ -30,5 +30,10 @@
   "note": "Note: The list of fields has been updated, please check if this has affected the list of questions. Click the Refresh button to get the latest fields.",
   "tttt": "Performing this action will reset the list of questions, sure you want to refresh the data in the field drop down box?",
   "refresh": "Refresh",
-  "Refresh Successful": "Refresh Successful"
+  "Refresh Successful": "Refresh Successful",
+  "download": "Download",
+  "Scan code preview": "Scan Code Preview",
+  "show": "Show",
+  "hide": "Hide",
+  "Form default value address QR code": "Form default value address QR code.png"
 }

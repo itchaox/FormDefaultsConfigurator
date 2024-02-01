@@ -33,5 +33,10 @@
   "note": "注意：字段列表已更新，请检查是否影响了问题列表。点击刷新按钮获取最新字段。",
   "tttt": "执行此操作将重置问题列表，确定要刷新字段下拉框的数据吗？",
   "refresh": "刷新",
-  "Refresh Successful": "刷新成功"
+  "Refresh Successful": "刷新成功",
+  "download": "下载",
+  "Scan code preview": "扫码预览",
+  "show": "显示",
+  "hide": "隐藏",
+  "Form default value address QR code": "表单默认值地址二维码.png"
 }
