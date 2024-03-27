@@ -3,7 +3,7 @@
  * @Author     : itchaox
  * @Date       : 2023-12-23 09:34
  * @LastAuthor : itchaox
- * @LastTime   : 2024-03-27 22:34
+ * @LastTime   : 2024-03-27 22:42
  * @desc       : 
 -->
 
@@ -673,14 +673,14 @@
             size="20"
             style="margin-right: 5px"
           />
-          插件帮助到我啦！我去打赏开发者</el-button
-        >
+          {{ $t('sponsor-code') }}
+        </el-button>
       </div>
     </div>
 
     <el-dialog
       v-model="dialogTableVisible"
-      title="打赏开发者"
+      :title="$t('sponsor-people')"
       width="65%"
     >
       <img
